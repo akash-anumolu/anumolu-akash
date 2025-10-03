@@ -50,66 +50,115 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final isMobile = size.width < 600;
 
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: CustomAppBar(),
-      body: Stack(
-        children: [
-          // Particle Background
-          // Particle Background (removed due to missing package)
-          SingleChildScrollView(
-            child: Padding(
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              AppColors.background,
+              AppColors.background.withOpacity(0.8),
+              AppColors.primary.withOpacity(0.05),
+            ],
+          ),
+        ),
+        child: Center(
+          child: SingleChildScrollView(
+            child: Container(
+              constraints: BoxConstraints(maxWidth: 1200),
               padding: EdgeInsets.symmetric(
-                horizontal: size.width * 0.1,
+                horizontal: isMobile ? AppSpacing.xl : AppSpacing.xxl * 2,
                 vertical: AppSpacing.xxl,
               ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: size.height * 0.1),
-                  FadeTransition(
-                    opacity: _fadeAnimation,
-                    child: SlideTransition(
-                      position: _slideAnimation,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+              child: FadeTransition(
+                opacity: _fadeAnimation,
+                child: SlideTransition(
+                  position: _slideAnimation,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      // Greeting Badge
+                      Container(
+                        padding: EdgeInsets.symmetric(
+                          horizontal: AppSpacing.lg,
+                          vertical: AppSpacing.sm,
+                        ),
+                        decoration: BoxDecoration(
+                          color: AppColors.primary.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: AppColors.primary.withOpacity(0.3),
+                            width: 1,
+                          ),
+                        ),
+                        child: Text(
+                          '👋 Welcome to my portfolio',
+                          style: AppTextStyles.body.copyWith(
+                            color: AppColors.primary,
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                      
+                      SizedBox(height: AppSpacing.xl),
+
+                      // Name
+                      Text(
+                        'Akash Anumolu',
+                        style: AppTextStyles.heading1.copyWith(
+                          fontSize: isMobile ? 40 : 64,
+                          fontWeight: FontWeight.bold,
+                          color: AppColors.secondary,
+                          letterSpacing: -1.5,
+                          height: 1.1,
+                        ),
+                      ),
+
+                      SizedBox(height: AppSpacing.lg),
+
+                      // Animated Role
+                      Row(
                         children: [
                           Text(
-                            'Hi, I\'m',
+                            'I\'m a ',
                             style: AppTextStyles.heading3.copyWith(
+                              fontSize: isMobile ? 20 : 28,
                               color: AppColors.textLight,
                             ),
                           ),
-                          SizedBox(height: AppSpacing.md),
-                          Text(
-                            'Akash Anumolu',
-                            style: AppTextStyles.heading1.copyWith(
-                              fontSize: size.width < 600 ? 36 : 48,
-                              color: AppColors.secondary,
-                            ),
-                          ),
-                          SizedBox(height: AppSpacing.lg),
                           AnimatedTextKit(
                             animatedTexts: [
                               TypewriterAnimatedText(
                                 'Full Stack Developer',
                                 textStyle: AppTextStyles.heading3.copyWith(
+                                  fontSize: isMobile ? 20 : 28,
                                   color: AppColors.primary,
+                                  fontWeight: FontWeight.w600,
                                 ),
                                 speed: Duration(milliseconds: 100),
                               ),
                               TypewriterAnimatedText(
                                 'IoT Specialist',
                                 textStyle: AppTextStyles.heading3.copyWith(
+                                  fontSize: isMobile ? 20 : 28,
                                   color: AppColors.primary,
+                                  fontWeight: FontWeight.w600,
                                 ),
                                 speed: Duration(milliseconds: 100),
                               ),
                               TypewriterAnimatedText(
                                 'Flutter Expert',
                                 textStyle: AppTextStyles.heading3.copyWith(
+                                  fontSize: isMobile ? 20 : 28,
                                   color: AppColors.primary,
+                                  fontWeight: FontWeight.w600,
                                 ),
                                 speed: Duration(milliseconds: 100),
                               ),
@@ -117,88 +166,124 @@ class _HomePageState extends State<HomePage> with TickerProviderStateMixin {
                             repeatForever: true,
                             pause: Duration(milliseconds: 1000),
                           ),
-                          SizedBox(height: AppSpacing.xl),
-                          Container(
-                            width: size.width < 600 ? size.width * 0.8 : 500,
-                            child: Text(
-                              'Passionate about building scalable applications and innovative IoT solutions. '
-                              'Currently working at greenkwh.net, specializing in Golang, Flutter, and cloud technologies.',
-                              style: AppTextStyles.body.copyWith(
-                                fontSize: 18,
-                                height: 1.8,
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: AppSpacing.xl),
-                          Row(
-                            children: [
-                              ElevatedButton(
-                                onPressed: () {
-                                  Navigator.pushNamed(context, '/projects');
-                                },
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: AppColors.primary,
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: AppSpacing.xl,
-                                    vertical: AppSpacing.lg,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                  elevation: 5,
-                                ),
-                                child: Row(
-                                  children: [
-                                    Text('View Projects', style: AppTextStyles.button),
-                                    SizedBox(width: AppSpacing.sm),
-                                    Icon(Icons.arrow_forward, color: AppColors.white),
-                                  ],
-                                ),
-                              ),
-                              SizedBox(width: AppSpacing.lg),
-                              OutlinedButton(
-                                onPressed: () {
-                                  // Download resume functionality
-                                },
-                                style: OutlinedButton.styleFrom(
-                                  padding: EdgeInsets.symmetric(
-                                    horizontal: AppSpacing.xl,
-                                    vertical: AppSpacing.lg,
-                                  ),
-                                  side: BorderSide(
-                                    color: AppColors.primary,
-                                    width: 2,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.download, color: AppColors.primary),
-                                    SizedBox(width: AppSpacing.sm),
-                                    Text(
-                                      'Download Resume',
-                                      style: AppTextStyles.button.copyWith(
-                                        color: AppColors.primary,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(height: AppSpacing.xl),
-                          SocialLinks(),
                         ],
                       ),
-                    ),
+
+                      SizedBox(height: AppSpacing.xl),
+
+                      // Description
+                      Container(
+                        constraints: BoxConstraints(maxWidth: 600),
+                        child: Text(
+                          'Building scalable applications and innovative IoT solutions at greenkwh.net. Specialized in Golang, Flutter, and cloud technologies.',
+                          style: AppTextStyles.body.copyWith(
+                            fontSize: isMobile ? 16 : 18,
+                            height: 1.7,
+                            color: AppColors.textLight.withOpacity(0.9),
+                          ),
+                        ),
+                      ),
+
+                      SizedBox(height: AppSpacing.xxl),
+
+                      // Action Buttons
+                      Wrap(
+                        spacing: AppSpacing.lg,
+                        runSpacing: AppSpacing.md,
+                        children: [
+                          ElevatedButton(
+                            onPressed: () {
+                              Navigator.pushNamed(context, '/projects');
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primary,
+                              padding: EdgeInsets.symmetric(
+                                horizontal: AppSpacing.xl * 1.5,
+                                vertical: AppSpacing.lg,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              elevation: 0,
+                              shadowColor: AppColors.primary.withOpacity(0.5),
+                            ).copyWith(
+                              overlayColor: MaterialStateProperty.all(
+                                AppColors.secondary.withOpacity(0.1),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Text(
+                                  'View Projects',
+                                  style: AppTextStyles.button.copyWith(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                                SizedBox(width: AppSpacing.sm),
+                                Icon(Icons.arrow_forward, 
+                                  color: AppColors.white, 
+                                  size: 20,
+                                ),
+                              ],
+                            ),
+                          ),
+                          OutlinedButton(
+                            onPressed: () {
+                              // Download resume functionality
+                            },
+                            style: OutlinedButton.styleFrom(
+                              padding: EdgeInsets.symmetric(
+                                horizontal: AppSpacing.xl * 1.5,
+                                vertical: AppSpacing.lg,
+                              ),
+                              side: BorderSide(
+                                color: AppColors.primary.withOpacity(0.5),
+                                width: 1.5,
+                              ),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                            ).copyWith(
+                              overlayColor: MaterialStateProperty.all(
+                                AppColors.primary.withOpacity(0.05),
+                              ),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Icon(
+                                  Icons.download_rounded, 
+                                  color: AppColors.primary,
+                                  size: 20,
+                                ),
+                                SizedBox(width: AppSpacing.sm),
+                                Text(
+                                  'Resume',
+                                  style: AppTextStyles.button.copyWith(
+                                    color: AppColors.primary,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w600,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+
+                      SizedBox(height: AppSpacing.xxl),
+
+                      // Social Links
+                      SocialLinks(),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           ),
-        ],
+        ),
       ),
     );
   }
